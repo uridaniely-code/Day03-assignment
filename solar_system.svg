@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="900" viewBox="0 0 1100 900">
+  <rect width="100%" height="100%" fill="#102a43"/>
+  <style>
+    text { font-family: Arial, sans-serif; fill: #f0f4f8; }
+    .title { font-size: 30px; font-weight: bold; fill: #ffd166; }
+    .subtitle { font-size: 15px; fill: #bcccdc; }
+    .planet-label { font-size: 13px; }
+  </style>
+  <circle cx="72" cy="92" r="2" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="175" cy="210" r="1.5" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="280" cy="75" r="1" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="405" cy="165" r="1.5" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="525" cy="80" r="1" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="680" cy="145" r="2" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="820" cy="76" r="1.5" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="1000" cy="190" r="1" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="1020" cy="320" r="1.5" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="75" cy="390" r="1" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="120" cy="690" r="2" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="275" cy="815" r="1.5" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="475" cy="790" r="1" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="690" cy="830" r="1.5" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="895" cy="760" r="1" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="1030" cy="640" r="2" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="970" cy="500" r="1" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="830" cy="310" r="1" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="355" cy="310" r="1" fill="#dbeafe" opacity="0.7"/>
+  <circle cx="225" cy="570" r="1.5" fill="#dbeafe" opacity="0.7"/>
+  <text x="550.0" y="48" text-anchor="middle" class="title">Our Solar System</text>
+  <text x="550.0" y="74" text-anchor="middle" class="subtitle">A stylized guide to the Sun and its eight planets</text>
+  <circle cx="550.0" cy="470.0" r="58" fill="none" stroke="#486581" stroke-width="1" opacity="0.65"/>
+  <circle cx="550.0" cy="470.0" r="92" fill="none" stroke="#486581" stroke-width="1" opacity="0.65"/>
+  <circle cx="550.0" cy="470.0" r="130" fill="none" stroke="#486581" stroke-width="1" opacity="0.65"/>
+  <circle cx="550.0" cy="470.0" r="170" fill="none" stroke="#486581" stroke-width="1" opacity="0.65"/>
+  <circle cx="550.0" cy="470.0" r="230" fill="none" stroke="#486581" stroke-width="1" opacity="0.65"/>
+  <circle cx="550.0" cy="470.0" r="295" fill="none" stroke="#486581" stroke-width="1" opacity="0.65"/>
+  <circle cx="550.0" cy="470.0" r="350" fill="none" stroke="#486581" stroke-width="1" opacity="0.65"/>
+  <circle cx="550.0" cy="470.0" r="405" fill="none" stroke="#486581" stroke-width="1" opacity="0.65"/>
+  <circle cx="550.0" cy="470.0" r="27" fill="#ffd166" stroke="#f4a261" stroke-width="5"/>
+  <text x="550.0" y="519.0" text-anchor="middle" class="planet-label">Sun</text>
+  <circle cx="550.0" cy="412.0" r="3" fill="#b8a99a" stroke="#f0f4f8" stroke-opacity="0.45" stroke-width="1.5"/>
+  <text x="550.0" y="399.0" class="planet-label">Mercury</text>
+  <circle cx="611.6" cy="401.6" r="6" fill="#e6b566" stroke="#f0f4f8" stroke-opacity="0.45" stroke-width="1.5"/>
+  <text x="611.6" y="384.6" class="planet-label">Venus</text>
+  <circle cx="679.5" cy="481.3" r="7" fill="#48a9e6" stroke="#f0f4f8" stroke-opacity="0.45" stroke-width="1.5"/>
+  <text x="679.5" y="503.3" class="planet-label">Earth</text>
+  <circle cx="621.8" cy="624.1" r="5" fill="#e76f51" stroke="#f0f4f8" stroke-opacity="0.45" stroke-width="1.5"/>
+  <text x="633.8" y="628.1" class="planet-label">Mars</text>
+  <circle cx="341.5" cy="567.2" r="15" fill="#d4a373" stroke="#f0f4f8" stroke-opacity="0.45" stroke-width="1.5"/>
+  <text x="333.5" y="596.2" class="planet-label">Jupiter</text>
+  <ellipse cx="834.9" cy="393.6" rx="20" ry="4" transform="rotate(-20 834.9 393.6)" fill="none" stroke="#f4d28c" stroke-width="3"/>
+  <circle cx="834.9" cy="393.6" r="12" fill="#e9c46a" stroke="#f0f4f8" stroke-opacity="0.45" stroke-width="1.5"/>
+  <text x="839.9" y="370.6" class="planet-label">Saturn</text>
+  <circle cx="375.0" cy="773.1" r="9" fill="#80cbc4" stroke="#f0f4f8" stroke-opacity="0.45" stroke-width="1.5"/>
+  <text x="370.0" y="797.1" class="planet-label">Uranus</text>
+  <circle cx="158.8" cy="365.2" r="9" fill="#5e81d1" stroke="#f0f4f8" stroke-opacity="0.45" stroke-width="1.5"/>
+  <text x="146.8" y="349.2" class="planet-label">Neptune</text>
+  <text x="550.0" y="876" text-anchor="middle" class="subtitle">Planet sizes and distances are not to scale</text>
+</svg>
