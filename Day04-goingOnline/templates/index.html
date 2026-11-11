@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Star Neighborhood | HR Diagram</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Inter, "Segoe UI", sans-serif;
+      background: #07111f;
+      color: #e6edf7;
+    }
+    body { margin: 0; min-height: 100vh; }
+    main { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0; }
+    header { margin-bottom: 28px; }
+    h1 { margin: 0 0 10px; font-size: clamp(2rem, 5vw, 3.25rem); color: #ffd166; }
+    h2 { margin-top: 0; }
+    p { color: #bcccdc; line-height: 1.6; }
+    .panel { padding: 24px; border: 1px solid #334e68; border-radius: 16px; background: #102a43; }
+    form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    label { display: block; margin-bottom: 8px; font-weight: 650; }
+    input { box-sizing: border-box; width: 100%; padding: 12px; border: 1px solid #627d98; border-radius: 8px; background: #07111f; color: white; font: inherit; }
+    input:focus { outline: 2px solid #48a9e6; border-color: transparent; }
+    .hint { margin: 7px 0 0; font-size: .9rem; }
+    button { grid-column: 1 / -1; justify-self: start; padding: 12px 20px; border: 0; border-radius: 8px; background: #ffd166; color: #102a43; font: inherit; font-weight: 750; cursor: pointer; }
+    .error { margin-top: 18px; padding: 12px 16px; border-left: 4px solid #ff6b6b; border-radius: 6px; background: #3b1f2b; color: #ffd6d6; }
+    .results { margin-top: 28px; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin: 18px 0; }
+    .stat { padding: 16px; border-radius: 10px; background: #07111f; }
+    .stat strong { display: block; margin-bottom: 6px; color: #ffd166; }
+    .diagram { display: block; width: 100%; height: auto; margin-top: 18px; border-radius: 10px; }
+    .note { font-size: .92rem; }
+    @media (max-width: 640px) {
+      main { padding: 28px 0; }
+      form { grid-template-columns: 1fr; }
+      button { grid-column: 1; }
+      .panel { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Star Neighborhood</h1>
+      <p>Enter a star’s estimated surface temperature and luminosity to place it on the Hertzsprung–Russell diagram and compare it with the supplied star catalog.</p>
+    </header>
+
+    <section class="panel" aria-labelledby="measurements-heading">
+      <h2 id="measurements-heading">Your star’s measurements</h2>
+      <p>The accepted ranges match the visible axes of this diagram. Values outside them cannot be shown on this chart.</p>
+      <form method="post">
+        <div>
+          <label for="temperature_K">Temperature (kelvin)</label>
+          <input id="temperature_K" name="temperature_K" type="number" min="{{ temperature_min }}" max="{{ temperature_max }}" step="any" required value="{{ form_values.temperature_K }}" aria-describedby="temperature-hint">
+          <p class="hint" id="temperature-hint">Range: {{ "{:,}".format(temperature_min) }}–{{ "{:,}".format(temperature_max) }} K</p>
+        </div>
+        <div>
+          <label for="luminosity_Lsun">Luminosity (solar luminosities, L☉)</label>
+          <input id="luminosity_Lsun" name="luminosity_Lsun" type="number" min="{{ luminosity_min }}" max="{{ luminosity_max }}" step="any" required value="{{ form_values.luminosity_Lsun }}" aria-describedby="luminosity-hint">
+          <p class="hint" id="luminosity-hint">Range: {{ "%.0e"|format(luminosity_min) }}–{{ "%.0e"|format(luminosity_max) }} L☉ (logarithmic scale)</p>
+        </div>
+        <button type="submit">Plot and compare</button>
+      </form>
+
+      {% if error %}
+        <div class="error" role="alert">{{ error }}</div>
+      {% endif %}
+    </section>
+
+    {% if result %}
+      <section class="panel results" aria-labelledby="results-heading">
+        <h2 id="results-heading">Catalog comparison</h2>
+        <p>Your star is shown as a magenta diamond. The outlined point is the closest catalog entry among {{ result.catalog_size }} valid catalog stars visible on this diagram.</p>
+        <div class="stats">
+          <div class="stat">
+            <strong>Closest catalog sample</strong>
+            {{ result.closest_id }}
+          </div>
+          <div class="stat">
+            <strong>Sample temperature</strong>
+            {{ "{:,.0f}".format(result.closest_temperature_K) }} K
+            ({{ "{:.1f}".format(result.temperature_difference_percent) }}% different)
+          </div>
+          <div class="stat">
+            <strong>Sample luminosity</strong>
+            {{ "%.3g"|format(result.closest_luminosity_Lsun) }} L☉
+            ({{ "{:.1f}".format(result.luminosity_difference_percent) }}% different)
+          </div>
+        </div>
+        <p class="note">“Closest” is computed in the diagram’s coordinates: temperature is scaled linearly and luminosity logarithmically. The percentage differences are listed separately for each measurement. A close match means similar to a sample in this catalog; it does not prove that the submitted measurements belong to a real star.</p>
+        <img class="diagram" src="data:image/png;base64,{{ result.diagram }}" alt="Hertzsprung–Russell diagram showing catalog stars, the Sun, the closest catalog sample, and your submitted star">
+      </section>
+    {% endif %}
+
+    <p class="note">Reference data: {{ catalog_size }} valid catalog stars fall within the displayed axes. Temperatures and luminosities follow the assumptions described in the Day 03 star-analysis notebook.</p>
+  </main>
+</body>
+</html>
