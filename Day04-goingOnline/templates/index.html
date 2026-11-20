@@ -56,9 +56,9 @@
           <p class="hint" id="temperature-hint">Range: {{ "{:,}".format(temperature_min) }}–{{ "{:,}".format(temperature_max) }} K</p>
         </div>
         <div>
-          <label for="luminosity_Lsun">Luminosity (solar luminosities, L☉)</label>
-          <input id="luminosity_Lsun" name="luminosity_Lsun" type="number" min="{{ luminosity_min }}" max="{{ luminosity_max }}" step="any" required value="{{ form_values.luminosity_Lsun }}" aria-describedby="luminosity-hint">
-          <p class="hint" id="luminosity-hint">Range: {{ "%.0e"|format(luminosity_min) }}–{{ "%.0e"|format(luminosity_max) }} L☉ (logarithmic scale)</p>
+          <label for="luminosity_exponent">Luminosity exponent (power of 10)</label>
+          <input id="luminosity_exponent" name="luminosity_exponent" type="number" min="{{ luminosity_exponent_min }}" max="{{ luminosity_exponent_max }}" step="1" required value="{{ form_values.luminosity_exponent }}" aria-describedby="luminosity-hint">
+          <p class="hint" id="luminosity-hint">Enter only the exponent in 10<sup>exponent</sup> L☉. Range: {{ luminosity_exponent_min }} to {{ luminosity_exponent_max }}. For example, enter -2 for 10<sup>-2</sup> L☉.</p>
         </div>
         <button type="submit">Plot and compare</button>
       </form>
@@ -71,6 +71,7 @@
     {% if result %}
       <section class="panel results" aria-labelledby="results-heading">
         <h2 id="results-heading">Catalog comparison</h2>
+        <p>Your entered luminosity is 10<sup>{{ form_values.luminosity_exponent }}</sup> L☉ = {{ "%.3g"|format(result.luminosity_Lsun) }} L☉.</p>
         <p>Your star is shown as a magenta diamond. The outlined point is the closest catalog entry among {{ result.catalog_size }} valid catalog stars visible on this diagram.</p>
         <div class="stats">
           <div class="stat">

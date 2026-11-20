@@ -14,38 +14,49 @@ class StarAppTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"2,500", response.data)
         self.assertIn(b"15,000", response.data)
-        self.assertIn(b"1e-04", response.data)
-        self.assertIn(b"1e+04", response.data)
+        self.assertIn(b"Enter only the exponent", response.data)
+        self.assertIn(b"Range: -4 to 4", response.data)
 
     def test_valid_measurements_return_plot_and_comparison(self):
         response = self.client.post(
             "/",
-            data={"temperature_K": "5778", "luminosity_Lsun": "1"},
+            data={"temperature_K": "5778", "luminosity_exponent": "0"},
         )
 
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Catalog comparison", response.data)
         self.assertIn(b"data:image/png;base64,", response.data)
+        self.assertIn(b"10<sup>0</sup> L", response.data)
         self.assertIn(b"does not prove", response.data)
 
     def test_temperature_outside_diagram_range_is_rejected(self):
         response = self.client.post(
             "/",
-            data={"temperature_K": "1", "luminosity_Lsun": "1"},
+            data={"temperature_K": "1", "luminosity_exponent": "0"},
         )
 
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Temperature must be between 2,500 and 15,000 K", response.data)
         self.assertNotIn(b"Catalog comparison", response.data)
 
-    def test_luminosity_outside_diagram_range_is_rejected(self):
+    def test_luminosity_exponent_outside_range_is_rejected(self):
         response = self.client.post(
             "/",
-            data={"temperature_K": "5000", "luminosity_Lsun": "0"},
+            data={"temperature_K": "5000", "luminosity_exponent": "5"},
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Luminosity must be between 0.0001 and 10000 L", response.data)
+        self.assertIn(b"Luminosity exponent must be between -4 and 4", response.data)
+        self.assertNotIn(b"Catalog comparison", response.data)
+
+    def test_fractional_luminosity_exponent_is_rejected(self):
+        response = self.client.post(
+            "/",
+            data={"temperature_K": "5000", "luminosity_exponent": "-2.5"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"whole-number luminosity exponent", response.data)
         self.assertNotIn(b"Catalog comparison", response.data)
 
 

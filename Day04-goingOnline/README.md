@@ -7,6 +7,7 @@ A Flask web app that plots user-provided stellar temperature and luminosity on t
 From this folder, install the dependencies and start the app:
 
 ```powershell
+cd /d "C:\Users\erezd\OneDrive\שולחן העבודה\אוניברסיטה\תואר שני\קורסים\Python programming with AI\Day03-assignment\Day04-goingOnline"
 python -m pip install -r requirements.txt
 python app.py
 ```
@@ -15,7 +16,7 @@ Open the local address printed by Flask (usually `http://127.0.0.1:5000`).
 
 ## Input ranges and comparison
 
-The form accepts temperatures from **2,500 to 15,000 K** and luminosities from **10⁻⁴ to 10⁴ L☉**, matching the existing diagram axes. Both ranges are also checked by the server.
+The form accepts temperatures from **2,500 to 15,000 K** and asks for the **whole-number exponent** in the luminosity `10^exponent L☉`, from **−4 to 4**. For example, enter `-2` for `10⁻² L☉`. The app converts the exponent to luminosity before plotting and comparing; both ranges are checked by the server.
 
 The app loads `ASTRM402_data.csv` from the parent `Day03-assignment` folder. As in the notebook, it derives luminosity from inverse-square flux and distance and estimates temperature from Wien’s displacement law. Rows missing required values or having nonpositive measurements are excluded.
 

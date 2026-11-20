@@ -21,6 +21,8 @@ TEMPERATURE_MIN_K = 2_500
 TEMPERATURE_MAX_K = 15_000
 LUMINOSITY_MIN_LSUN = 1e-4
 LUMINOSITY_MAX_LSUN = 1e4
+LUMINOSITY_EXPONENT_MIN = -4
+LUMINOSITY_EXPONENT_MAX = 4
 PARSEC_TO_CM = 3.085677581e18
 WIEN_DISPLACEMENT_M_K = 2.897771955e-3
 DATA_PATH = Path(__file__).resolve().parent.parent / "ASTRM402_data.csv"
@@ -198,40 +200,40 @@ def create_hr_diagram(temperature_K: float, luminosity_Lsun: float, closest_inde
 
 
 def parse_measurements(form: Mapping[str, str]) -> tuple[float, float]:
-    """Parse submitted values and enforce the visible diagram limits."""
+    """Parse measurements and convert the submitted luminosity exponent to L☉."""
     temperature_raw = form.get("temperature_K", "").strip()
-    luminosity_raw = form.get("luminosity_Lsun", "").strip()
-    if not temperature_raw or not luminosity_raw:
+    luminosity_exponent_raw = form.get("luminosity_exponent", "").strip()
+    if not temperature_raw or not luminosity_exponent_raw:
         raise ValueError("Enter both temperature and luminosity.")
     try:
         temperature_K = float(temperature_raw)
-        luminosity_Lsun = float(luminosity_raw)
+        luminosity_exponent = int(luminosity_exponent_raw)
     except ValueError as exc:
-        raise ValueError("Enter numeric values for both measurements.") from exc
+        raise ValueError("Enter a numeric temperature and a whole-number luminosity exponent.") from exc
 
     if not isfinite(temperature_K) or not TEMPERATURE_MIN_K <= temperature_K <= TEMPERATURE_MAX_K:
         raise ValueError(
             f"Temperature must be between {TEMPERATURE_MIN_K:,} and "
             f"{TEMPERATURE_MAX_K:,} K to appear on this diagram."
         )
-    if not isfinite(luminosity_Lsun) or not LUMINOSITY_MIN_LSUN <= luminosity_Lsun <= LUMINOSITY_MAX_LSUN:
+    if not LUMINOSITY_EXPONENT_MIN <= luminosity_exponent <= LUMINOSITY_EXPONENT_MAX:
         raise ValueError(
-            f"Luminosity must be between {LUMINOSITY_MIN_LSUN:g} and "
-            f"{LUMINOSITY_MAX_LSUN:g} L☉ to appear on this diagram."
+            f"Luminosity exponent must be between {LUMINOSITY_EXPONENT_MIN} and "
+            f"{LUMINOSITY_EXPONENT_MAX}."
         )
-    return temperature_K, luminosity_Lsun
+    return temperature_K, 10.0**luminosity_exponent
 
 
 @app.route("/", methods=["GET", "POST"])
 def index():
     error = None
     result = None
-    form_values = {"temperature_K": "", "luminosity_Lsun": ""}
+    form_values = {"temperature_K": "", "luminosity_exponent": ""}
 
     if request.method == "POST":
         form_values = {
             "temperature_K": request.form.get("temperature_K", ""),
-            "luminosity_Lsun": request.form.get("luminosity_Lsun", ""),
+            "luminosity_exponent": request.form.get("luminosity_exponent", ""),
         }
         try:
             temperature_K, luminosity_Lsun = parse_measurements(request.form)
@@ -268,8 +270,8 @@ def index():
         form_values=form_values,
         temperature_min=TEMPERATURE_MIN_K,
         temperature_max=TEMPERATURE_MAX_K,
-        luminosity_min=LUMINOSITY_MIN_LSUN,
-        luminosity_max=LUMINOSITY_MAX_LSUN,
+        luminosity_exponent_min=LUMINOSITY_EXPONENT_MIN,
+        luminosity_exponent_max=LUMINOSITY_EXPONENT_MAX,
         catalog_size=len(VISIBLE_CATALOG),
     )
 
